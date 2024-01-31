@@ -9,19 +9,20 @@ FONT_NAME = "Courier"
 WORK_MIN = 1
 SHORT_BREAK_MIN = 1
 LONG_BREAK_MIN = 20
-reps = 0
+REPS = 0
+CHECKMARK = "✔"
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 def start_timer():
-    global reps
-    reps += 1
+    global REPS
+    REPS += 1
 
-    if reps % 2 == 1:
+    if REPS % 2 == 1:
         count_down(60*WORK_MIN)
         timer_label.config(text="WORK", fg=GREEN)
-    elif reps % 8 == 0:
+    elif REPS % 8 == 0:
         count_down(60*LONG_BREAK_MIN)
         timer_label.config(text="BREAK", fg=RED)
     else:
@@ -42,6 +43,9 @@ def count_down(count):
         window.after(1000, count_down, count -1)
     else:
         start_timer()
+        work_sessions = math.floor(REPS/2)
+        check_marks.config(text=work_sessions*CHECKMARK)
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
@@ -64,7 +68,7 @@ start_button.grid(column=0, row=2)
 reset_button = Button(text="Reset")
 reset_button.grid(column=2, row=2)
 
-check_marks = Label(text="✔", fg=GREEN, bg=YELLOW, font=(FONT_NAME, 20, "bold"))
+check_marks = Label(fg=GREEN, bg=YELLOW, font=(FONT_NAME, 20, "bold"))
 check_marks.grid(column=1, row=3)
 
 
